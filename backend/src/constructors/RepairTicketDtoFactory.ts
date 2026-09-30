@@ -1,1 +1,29 @@
-export const createRepairTicketDto = (overrides = {}) => ({ id: 1, fault_report_id: 1, team_id: 1, dispatcher_id: 1, priority: "priority 1", status: "ASSIGNED", assigned_at: "2026-06-11T09:00:00Z", restored_at: "2026-06-11T09:00:00Z", ...overrides });
+import type { RepairTicket } from "../models/RepairTicket";
+
+export const createRepairTicketDto = (overrides: Partial<RepairTicket> = {}): RepairTicket => ({
+  id: 0,
+  fault_report_id: 0,
+  team_id: null,
+  dispatcher_id: null,
+  priority: "NORMAL",
+  status: "WAIT_DISPATCH",
+  assigned_at: null,
+  restored_at: null,
+  ...overrides
+});
+
+/** 派工请求 DTO */
+export const createDispatchDto = (teamId: number, dispatcherId: number) => ({
+  teamId,
+  dispatcherId
+});
+
+/** 派工响应 DTO：同时回传工单、班组、配网资产 */
+export const createDispatchResponseDto = (ticket: RepairTicket, crew: unknown, asset: unknown) => ({
+  ticket,
+  crew,
+  asset
+});
+
+export const createRepairTicketForm = createRepairTicketDto;
+export const createRepairTicketResponse = createRepairTicketDto;

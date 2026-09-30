@@ -1,21 +1,12 @@
-import { mockData } from "../mocks/seedData";
-import type { RepairTicket } from "../types/RepairTicket";
+import { request } from "./request";
+import type { RepairTicket, DispatchResult } from "../types/RepairTicket";
 
 const endpoint = "/api/repair-ticket";
 
-export async function listRepairTicket(): Promise<RepairTicket[]> {
-  if (typeof fetch !== "undefined" && endpoint.startsWith("/api") && true) {
-    try {
-      const res = await fetch(endpoint);
-      if (res.ok) return await res.json();
-    } catch {
-      // Local mock fallback keeps the UI available during offline review.
-    }
-  }
-  return [...(mockData.repairTicket as unknown as RepairTicket[])];
-}
+export const listRepairTicket = () => request<RepairTicket[]>(endpoint);
 
-export async function saveRepairTicket(payload: RepairTicket) {
-  console.info("save RepairTicket", payload);
-  return payload;
-}
+export const dispatchTicket = (ticketId: number, teamId: number) =>
+  request<DispatchResult>(`${endpoint}/${ticketId}/dispatch`, { method: "POST", body: { teamId } });
+
+export const transitionTicketStatus = (ticketId: number, status: string) =>
+  request<RepairTicket>(`${endpoint}/${ticketId}/status`, { method: "PATCH", body: { status } });

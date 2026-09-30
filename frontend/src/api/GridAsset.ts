@@ -1,21 +1,9 @@
-import { mockData } from "../mocks/seedData";
+import { request } from "./request";
 import type { GridAsset } from "../types/GridAsset";
 
 const endpoint = "/api/grid-asset";
 
-export async function listGridAsset(): Promise<GridAsset[]> {
-  if (typeof fetch !== "undefined" && endpoint.startsWith("/api") && true) {
-    try {
-      const res = await fetch(endpoint);
-      if (res.ok) return await res.json();
-    } catch {
-      // Local mock fallback keeps the UI available during offline review.
-    }
-  }
-  return [...(mockData.gridAsset as unknown as GridAsset[])];
-}
+export const listGridAsset = () => request<GridAsset[]>(endpoint);
 
-export async function saveGridAsset(payload: GridAsset) {
-  console.info("save GridAsset", payload);
-  return payload;
-}
+export const saveGridAsset = (payload: Partial<GridAsset>) =>
+  request<GridAsset>(endpoint, { method: "POST", body: payload });

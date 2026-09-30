@@ -1,21 +1,13 @@
-import { mockData } from "../mocks/seedData";
+import { request } from "./request";
 import type { Crew } from "../types/Crew";
 
 const endpoint = "/api/crew";
 
-export async function listCrew(): Promise<Crew[]> {
-  if (typeof fetch !== "undefined" && endpoint.startsWith("/api") && true) {
-    try {
-      const res = await fetch(endpoint);
-      if (res.ok) return await res.json();
-    } catch {
-      // Local mock fallback keeps the UI available during offline review.
-    }
-  }
-  return [...(mockData.crew as unknown as Crew[])];
-}
+export const listCrew = () => request<Crew[]>(endpoint);
 
-export async function saveCrew(payload: Crew) {
-  console.info("save Crew", payload);
-  return payload;
-}
+/** 候选班组：技能匹配、当值、无未结工单（后端基于当前状态实时计算） */
+export const listCandidates = (ticketId: number) =>
+  request<Crew[]>(`${endpoint}/candidates?ticketId=${ticketId}`);
+
+export const setCrewDutyStatus = (crewId: number, dutyStatus: string) =>
+  request<Crew>(`${endpoint}/${crewId}/duty-status`, { method: "PATCH", body: { dutyStatus } });
