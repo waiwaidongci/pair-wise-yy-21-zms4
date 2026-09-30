@@ -1,14 +1,15 @@
 import type { RepairTicket } from "../types/RepairTicket";
 
 export const createDefaultRepairTicket = (overrides: Partial<RepairTicket> = {}): RepairTicket => ({
-  id: 1 as never,
-  fault_report_id: 1 as never,
-  team_id: 1 as never,
-  dispatcher_id: 1 as never,
-  priority: "priority 1" as never,
-  status: "ASSIGNED" as never,
-  assigned_at: "2026-06-11T09:00:00Z" as never,
-  restored_at: "2026-06-11T09:00:00Z" as never,
+  id: 0,
+  fault_report_id: 0,
+  team_id: null,
+  dispatcher_id: null,
+  priority: "NORMAL",
+  status: "WAIT_DISPATCH",
+  assigned_at: null,
+  restored_at: null,
+  version: 1,
   ...overrides
 });
 

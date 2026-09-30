@@ -1,1 +1,10 @@
-import { faultReportRepository } from "../repositories/FaultReportRepository"; export const faultReportService = { list: () => faultReportRepository.findAll(), create: (row: unknown) => faultReportRepository.save(row) };
+import { faultReportRepository } from "../repositories/FaultReportRepository";
+import { createFaultReportDto, createFaultReportDtoList } from "../constructors/FaultReportDtoFactory";
+
+export const faultReportService = {
+  list: () => createFaultReportDtoList(faultReportRepository.findAll()),
+  getById: (id: number) => {
+    const row = faultReportRepository.findById(id);
+    return row ? createFaultReportDto(row) : undefined;
+  }
+};

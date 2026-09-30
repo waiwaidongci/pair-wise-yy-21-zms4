@@ -1,21 +1,21 @@
 import { mockData } from "../mocks/seedData";
 import type { SparePartUsage } from "../types/SparePartUsage";
+import { requestJson } from "./http";
 
 const endpoint = "/api/spare-part-usage";
 
 export async function listSparePartUsage(): Promise<SparePartUsage[]> {
-  if (typeof fetch !== "undefined" && endpoint.startsWith("/api") && true) {
-    try {
-      const res = await fetch(endpoint);
-      if (res.ok) return await res.json();
-    } catch {
-      // Local mock fallback keeps the UI available during offline review.
-    }
+  try {
+    return await requestJson<SparePartUsage[]>(endpoint);
+  } catch {
+    return mockData.sparePartUsage.map((row) => ({ ...row }));
   }
-  return [...(mockData.sparePartUsage as unknown as SparePartUsage[])];
 }
 
-export async function saveSparePartUsage(payload: SparePartUsage) {
-  console.info("save SparePartUsage", payload);
-  return payload;
-}
+export const listSparePartUsageByTicket = async (ticketId: number): Promise<SparePartUsage[]> => {
+  try {
+    return await requestJson<SparePartUsage[]>(`${endpoint}/ticket/${ticketId}`);
+  } catch {
+    return mockData.sparePartUsage.filter((row) => row.ticket_id === ticketId).map((row) => ({ ...row }));
+  }
+};

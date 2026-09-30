@@ -1,0 +1,7 @@
+export type SkillTag =
+  | "OUTAGE_REPAIR"
+  | "LINE_WORK"
+  | "CABLE_REPAIR"
+  | "TRANSFORMER_REPAIR"
+  | "EMERGENCY_RESCUE"
+  | "METERING_REPAIR";

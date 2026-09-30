@@ -1,1 +1,8 @@
-export const createSparePartUsageDto = (overrides = {}) => ({ id: 1, ticket_id: 1, part_code: "part code 1", part_name: "part name 1", quantity: 92, warehouse_name: "warehouse name 1", approved_by: "approved by 1", usage_status: "ASSIGNED", ...overrides });
+import type { SparePartUsage } from "../models/SparePartUsage";
+
+export type SparePartUsageDto = SparePartUsage;
+
+export const createSparePartUsageDto = (row: SparePartUsage): SparePartUsageDto => ({ ...row });
+
+export const createSparePartUsageDtoList = (rows: SparePartUsage[]): SparePartUsageDto[] =>
+  rows.map(createSparePartUsageDto);
